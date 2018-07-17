@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EventService } from '../event.service';
 
 @Component({
   selector: 'app-special-events',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SpecialEventsComponent implements OnInit {
 
-  constructor() { }
+  specialEvents: Array<any> = [];
+
+  constructor(private eventService: EventService) { }
 
   ngOnInit() {
+    this.getSpecialEvents();
+  }
+
+  getSpecialEvents() {
+    this.eventService.getSpecialEvents().subscribe(
+      res => this.specialEvents = res,
+      err => console.log(err)
+    )
   }
 
 }
