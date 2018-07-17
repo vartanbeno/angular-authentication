@@ -111,7 +111,7 @@ router.get('/events', (req, res) => {
             "_id": "6",
             "name": "Event Name",
             "description": "Event Description",
-            "date": "mm-dd-yyyy"
+            "date": "01-01-1970"
         }
     ]
     res.json(events);
@@ -160,7 +160,7 @@ router.get('/special', verifyToken, (req, res) => {
             "_id": "6",
             "name": "Event Name",
             "description": "Event Description",
-            "date": "mm-dd-yyyy"
+            "date": "01-01-1970"
         }
     ]
     res.json(events);

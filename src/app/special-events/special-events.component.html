@@ -7,7 +7,7 @@
           <a href="#" class="btn btn-success">Buy Tickets</a>
         </div>
         <div class="card-footer text-muted">
-          {{ specialEvent.date }}
+          {{ specialEvent.date | date: 'shortDate' }}
         </div>
       </div>
     </div>
