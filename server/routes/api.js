@@ -16,6 +16,22 @@ mongoose.connect(url, err => {
     }
 })
 
+function verifyToken(req, res, next) {
+    if (!req.headers.authorization) {
+        return res.status(401).send('Unauthorized request');
+    }
+    let token = req.headers.authorization.split(' ')[1];
+    if (token === 'null') {
+        return res.status(401).send('Unauthorized request');
+    }
+    let payload = jwt.verify(token, 'secretKey');
+    if (!payload) {
+        return res.status(401).send('Unauthorized request');
+    }
+    req.userId = payload.subject;
+    next();
+}
+
 router.get('/', (req, res) => {
     res.send('Hello from API route');
 })
@@ -101,7 +117,14 @@ router.get('/events', (req, res) => {
     res.json(events);
 })
 
-router.get('/special', (req, res) => {
+/**
+ * When we make a request to this route, the token
+ * is first verified, and only then the code in this
+ * particular api gets executed. So if the user tries
+ * to send an invalid token, the code isn't run, and
+ * the user is met with a 401 status.
+ */
+router.get('/special', verifyToken, (req, res) => {
     let events = [
         {
             "_id": "1",
