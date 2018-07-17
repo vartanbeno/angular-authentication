@@ -42,4 +42,88 @@ router.post('/login', (req, res) => {
     })
 })
 
+router.get('/events', (req, res) => {
+    let events = [
+        {
+            "_id": "1",
+            "name": "Kanye West",
+            "description": "Concert",
+            "data": "11-21-2014"
+        },
+        {
+            "_id": "2",
+            "name": "World Cup",
+            "description": "Final Match",
+            "data": "06-15-2018"
+        },
+        {
+            "_id": "3",
+            "name": "NBA Finals",
+            "description": "Game 7",
+            "data": "06-08-2018"
+        },
+        {
+            "_id": "4",
+            "name": "Ericsson Response",
+            "description": "Work Event",
+            "data": "06-17-2018"
+        },
+        {
+            "_id": "5",
+            "name": "Raptors @ Lakers",
+            "description": "Regular Season",
+            "data": "11-03-2018"
+        },
+        {
+            "_id": "6",
+            "name": "Event Name",
+            "description": "Event Description",
+            "data": "mm-dd-yyyy"
+        }
+    ]
+    res.json(events);
+})
+
+router.get('/special', (req, res) => {
+    let events = [
+        {
+            "_id": "1",
+            "name": "Kanye West",
+            "description": "Concert",
+            "data": "11-21-2014"
+        },
+        {
+            "_id": "2",
+            "name": "World Cup",
+            "description": "Final Match",
+            "data": "06-15-2018"
+        },
+        {
+            "_id": "3",
+            "name": "NBA Finals",
+            "description": "Game 7",
+            "data": "06-08-2018"
+        },
+        {
+            "_id": "4",
+            "name": "Ericsson Response",
+            "description": "Work Event",
+            "data": "06-17-2018"
+        },
+        {
+            "_id": "5",
+            "name": "Raptors @ Lakers",
+            "description": "Regular Season",
+            "data": "11-03-2018"
+        },
+        {
+            "_id": "6",
+            "name": "Event Name",
+            "description": "Event Description",
+            "data": "mm-dd-yyyy"
+        }
+    ]
+    res.json(events);
+})
+
 module.exports = router;
