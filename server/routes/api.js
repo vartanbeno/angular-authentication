@@ -7,8 +7,12 @@ const User = require('../models/users');
 const url = 'mongodb://test:test123@ds139921.mlab.com:39921/angular-auth-events';
 
 mongoose.connect(url, err => {
-    if (err) throw err;
-    console.log('Connected to mongoDB');
+    if (err) {
+        console.log(err);
+    }
+    else {
+        console.log('Connected to mongoDB')
+    }
 })
 
 router.get('/', (req, res) => {
@@ -19,24 +23,32 @@ router.post('/register', (req, res) => {
     let userData = req.body;
     let user = new User(userData);
     user.save((err, registeredUser) => {
-        if (err) throw err;
-        return res.status(200).send(registeredUser);
+        if (err) {
+            console.log(err);
+        }
+        else {
+            return res.status(200).send(registeredUser);
+        }
     })
 })
 
 router.post('/login', (req, res) => {
     let userData = req.body;
-    User.findOne({ email: userData.email }, (err, user) => {
-        if (err) throw err;
-        if (!user) {
-            res.status(401).send('Invalid email.');
+    User.findOne({ username: userData.username }, (err, user) => {
+        if (err) {
+            console.log(err);
         }
         else {
-            if (user.password !== userData.password) {
-                res.status(401).send('Invalid password.');
+            if (!user) {
+                res.status(401).send('Invalid username.');
             }
             else {
-                res.status(200).send(user);
+                if (user.password !== userData.password) {
+                    res.status(401).send('Invalid password.');
+                }
+                else {
+                    res.status(200).send(user);
+                }
             }
         }
     })
