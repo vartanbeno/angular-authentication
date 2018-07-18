@@ -5,6 +5,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const User = require('../models/users');
 
+const bcrypt = require('bcryptjs');
+
 const url = 'mongodb://test:test123@ds139921.mlab.com:39921/angular-auth-events';
 
 mongoose.connect(url, err => {
@@ -38,16 +40,28 @@ router.get('/', (req, res) => {
 
 router.post('/register', (req, res) => {
     let userData = req.body;
-    let user = new User(userData);
-    user.save((err, registeredUser) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            let payload = { subject: registeredUser._id };
-            let token = jwt.sign(payload, 'secretKey');
-            return res.status(200).send({ token });
-        }
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(userData.password, salt, (err, hash) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                let user = new User({
+                    username: userData.username,
+                    password: hash
+                });
+                user.save((err, registeredUser) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        let payload = { subject: registeredUser._id };
+                        let token = jwt.sign(payload, 'secretKey');
+                        return res.status(200).send({ token });
+                    }
+                })
+            }
+        })
     })
 })
 
@@ -77,14 +91,19 @@ router.post('/login', (req, res) => {
                 res.status(401).send('Invalid username.');
             }
             else {
-                if (user.password !== userData.password) {
-                    res.status(401).send('Invalid password.');
-                }
-                else {
-                    let payload = { subject: user._id };
-                    let token = jwt.sign(payload, 'secretKey');
-                    res.status(200).send({ token });
-                }
+                bcrypt.compare(userData.password, user.password, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else if (result) {
+                        let payload = { subject: user._id };
+                        let token = jwt.sign(payload, 'secretKey');
+                        res.status(200).send({ token });
+                    }
+                    else {
+                        res.status(401).send('Invalid password.');
+                    }
+                })
             }
         }
     })
