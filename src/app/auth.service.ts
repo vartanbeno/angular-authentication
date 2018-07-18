@@ -10,6 +10,8 @@ export class AuthService {
   private _registerUrl = 'http://localhost:3000/api/register';
   private _loginUrl = 'http://localhost:3000/api/login';
 
+  private _validate = 'http://localhost:3000/api/validate';
+
   constructor(private http: HttpClient, private router: Router) { }
 
   registerUser(user) {
@@ -31,6 +33,10 @@ export class AuthService {
   logoutUser() {
     localStorage.removeItem('token');
     this.router.navigate(['/events']);
+  }
+
+  validateUser(user) {
+    return this.http.post<any>(this._validate, user);
   }
 
 }

@@ -39,21 +39,29 @@ router.get('/', (req, res) => {
 router.post('/register', (req, res) => {
     let userData = req.body;
     let user = new User(userData);
-    User.count({ username: userData.username }).then((count) => {
-        if (count > 0) {
-            return res.status(401).send('Username already exists.')
+    user.save((err, registeredUser) => {
+        if (err) {
+            console.log(err);
         }
         else {
-            user.save((err, registeredUser) => {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    let payload = { subject: registeredUser._id };
-                    let token = jwt.sign(payload, 'secretKey');
-                    return res.status(200).send({ token });
-                }
-            })
+            let payload = { subject: registeredUser._id };
+            let token = jwt.sign(payload, 'secretKey');
+            return res.status(200).send({ token });
+        }
+    })
+})
+
+router.post('/validate', (req, res) => {
+    let userData = req.body;
+    User.count({ username: userData.username }).then((count, err) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (count > 0) {
+            return res.status(409).json('Username already exists.');
+        }
+        else {
+            return res.status(200).json('OK');
         }
     })
 })

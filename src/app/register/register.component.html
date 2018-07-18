@@ -20,7 +20,7 @@
             <input [(ngModel)]="registerUserData.password" name="password" type="password" class="form-control rounded-0" required>
           </div>
 
-          <button type="submit" class="btn btn-primary float-right">Register</button>
+          <button type="submit" class="btn btn-primary float-right" [disabled]="usernameInvalid">Register</button>
 
         </form>
       </div>

@@ -28,13 +28,21 @@ export class RegisterComponent implements OnInit {
       },
       err => {
         console.log(err);
-        this.usernameInvalid = true;
       }
     )
   }
 
   validating() {
-    this.usernameInvalid = false;
+    this._auth.validateUser(this.registerUserData).subscribe(
+      res => {
+        this.usernameInvalid = false;
+      },
+      err => {
+        if (err.status === 409) {
+          this.usernameInvalid = true;
+        }
+      }
+    )
   }
 
 }
