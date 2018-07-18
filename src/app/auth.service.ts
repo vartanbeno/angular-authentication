@@ -23,15 +23,20 @@ export class AuthService {
   }
 
   loggedIn() {
-    return !!localStorage.getItem('token');
+    return !!(localStorage.getItem('token') && localStorage.getItem('username'));
   }
 
   getToken() {
     return localStorage.getItem('token');
   }
 
+  getUsername() {
+    return localStorage.getItem('username');
+  }
+
   logoutUser() {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
     this.router.navigate(['/events']);
   }
 

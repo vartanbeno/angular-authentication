@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from '../event.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-special-events',
@@ -12,7 +13,7 @@ export class SpecialEventsComponent implements OnInit {
 
   specialEvents: Array<any> = [];
 
-  constructor(private eventService: EventService, private router: Router) { }
+  constructor(private eventService: EventService, private router: Router, private _auth: AuthService) { }
 
   ngOnInit() {
     this.getSpecialEvents();
