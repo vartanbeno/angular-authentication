@@ -39,14 +39,21 @@ router.get('/', (req, res) => {
 router.post('/register', (req, res) => {
     let userData = req.body;
     let user = new User(userData);
-    user.save((err, registeredUser) => {
-        if (err) {
-            console.log(err);
+    User.count({ username: userData.username }).then((count) => {
+        if (count > 0) {
+            return res.status(401).send('Username already exists.')
         }
         else {
-            let payload = { subject: registeredUser._id };
-            let token = jwt.sign(payload, 'secretKey');
-            return res.status(200).send({ token });
+            user.save((err, registeredUser) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    let payload = { subject: registeredUser._id };
+                    let token = jwt.sign(payload, 'secretKey');
+                    return res.status(200).send({ token });
+                }
+            })
         }
     })
 })

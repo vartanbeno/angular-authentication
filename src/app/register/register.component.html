@@ -11,7 +11,8 @@
 
           <div class="form-group">
             <label for="">Username</label>
-            <input [(ngModel)]="registerUserData.username" name="username" type="text" class="form-control rounded-0" required #usernameInput>
+            <input [(ngModel)]="registerUserData.username"  name="username" type="text" class="form-control rounded-0" [class.is-invalid]="usernameInvalid" (input)="validating()" required #usernameInput>
+            <div *ngIf="usernameInvalid" class="invalid-feedback">Username already exists.</div>
           </div>
 
           <div class="form-group">

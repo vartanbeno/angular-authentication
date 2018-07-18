@@ -11,6 +11,7 @@ export class RegisterComponent implements OnInit {
 
   registerUserData: Object = {};
   @ViewChild('usernameInput') usernameInput: ElementRef;
+  usernameInvalid: boolean = false;
 
   constructor(private _auth: AuthService, private router: Router) { }
 
@@ -25,8 +26,15 @@ export class RegisterComponent implements OnInit {
         localStorage.setItem('token', res.token);
         this.router.navigate(['special']);
       },
-      err => console.log(err)
+      err => {
+        console.log(err);
+        this.usernameInvalid = true;
+      }
     )
+  }
+
+  validating() {
+    this.usernameInvalid = false;
   }
 
 }
