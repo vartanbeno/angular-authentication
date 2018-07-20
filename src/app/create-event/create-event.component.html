@@ -8,7 +8,7 @@
 
       <br/><br/>
 
-      <button class="btn btn-primary" type="submit" style="margin-right: 2px" [disabled]="eventForm.form.invalid">Add</button>
+      <button class="btn btn-primary" [class.btn-success]="special" type="submit" style="margin-right: 2px" [disabled]="eventForm.form.invalid">Add</button>
       <button class="btn btn-danger" style="margin-left: 2px" (click)="cancel()">Cancel</button>
 
     </form>

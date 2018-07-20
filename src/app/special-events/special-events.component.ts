@@ -16,6 +16,7 @@ export class SpecialEventsComponent implements OnInit {
   constructor(private eventService: EventService, private router: Router, private _auth: AuthService) { }
 
   ngOnInit() {
+    this.eventService.addingEvent = false;
     this.getSpecialEvents();
   }
 
@@ -30,6 +31,23 @@ export class SpecialEventsComponent implements OnInit {
         }
       }
     )
+  }
+
+  addSpecialEvent() {
+    this.eventService.addingEvent = true;
+  }
+
+  deleteAllSpecialEvents() {
+    let deleteAllSpecial = confirm('Click on OK to delete all special events.');
+    if (deleteAllSpecial) {
+      this.eventService.deleteAllSpecialEvents().subscribe(
+        res => {
+          console.log(res);
+          this.getSpecialEvents()
+        },
+        err => console.log(err)
+      );
+    }
   }
 
 }

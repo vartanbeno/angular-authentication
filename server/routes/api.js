@@ -183,4 +183,15 @@ router.post('/special/createSpecialEvent', (req, res) => {
     })
 })
 
+router.delete('/special/deleteAll', (req, res) => {
+    SpecialEvent.remove({}, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            return res.status(200).json('All special events have been deleted.');
+        }
+    })
+})
+
 module.exports = router;

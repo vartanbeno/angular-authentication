@@ -12,6 +12,7 @@ export class CreateEventComponent implements OnInit {
 
   event = new Event('', '', '');
   @Input() events: EventsComponent;
+  @Input() special: boolean;
 
   constructor(private eventService: EventService) { }
 

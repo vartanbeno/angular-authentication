@@ -14,6 +14,7 @@ export class EventsComponent implements OnInit {
   constructor(private eventService: EventService, private _auth: AuthService) { }
 
   ngOnInit() {
+    this.eventService.addingEvent = false;
     this.getEvents();
   }
 
