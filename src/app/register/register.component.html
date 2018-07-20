@@ -7,12 +7,18 @@
       </div>
 
       <div class="card-body">
-        <form class="form" autocomplete="off" (ngSubmit)="registerUser()">
+        <form #userForm="ngForm" class="form" autocomplete="off" (ngSubmit)="registerUser()" novalidate>
 
           <div class="form-group">
             <label for="">Username</label>
-            <input [(ngModel)]="registerUserData.username"  name="username" type="text" class="form-control rounded-0" [class.is-invalid]="usernameInvalid" (input)="validating()" required #usernameInput>
-            <div *ngIf="usernameInvalid" class="invalid-feedback">Username already exists.</div>
+            <input [(ngModel)]="registerUserData.username" #username="ngModel" name="username" type="text" class="form-control rounded-0" [class.is-invalid]="usernameInvalid || (username.invalid && username.touched)" (input)="validating()" pattern="^\S*$" required #usernameInput>
+            <div *ngIf="username.errors && (username.invalid || username.touched)">
+              <small *ngIf="username.errors.pattern" class="text-danger">Make sure the username doesn't contain any spaces.</small>
+              <small *ngIf="username.errors.required && username.touched" class="text-danger">Username is required.</small>
+            </div>
+            <div *ngIf="usernameInvalid">
+              <small *ngIf="usernameInvalid" class="text-danger">Username already exists.</small>
+            </div>
           </div>
 
           <div class="form-group">
@@ -20,7 +26,7 @@
             <input [(ngModel)]="registerUserData.password" name="password" type="password" class="form-control rounded-0" required>
           </div>
 
-          <button type="submit" class="btn btn-primary float-right" [disabled]="usernameInvalid">Register</button>
+          <button type="submit" class="btn btn-primary float-right" [disabled]="usernameInvalid || userForm.form.invalid">Register</button>
 
         </form>
       </div>

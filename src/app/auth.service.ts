@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,11 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  registerUser(user) {
+  registerUser(user: User) {
     return this.http.post<any>(this._registerUrl, user);
   }
 
-  loginUser(user) {
+  loginUser(user: User) {
     return this.http.post<any>(this._loginUrl, user);
   }
 
@@ -40,7 +41,7 @@ export class AuthService {
     this.router.navigate(['/events']);
   }
 
-  validateUser(user) {
+  validateUser(user: User) {
     return this.http.post<any>(this._validate, user);
   }
 
