@@ -25,7 +25,12 @@ export class CreateEventComponent implements OnInit {
         this.eventService.addingEvent = false;
         this.events.getEvents();
       },
-      err => console.log(err)
+      err => {
+        console.log(err);
+        if (err.error.name === 'ValidationError') {
+          alert('Please input an acceptable format for the date.');
+        }
+      }
     )
   }
   
@@ -35,7 +40,12 @@ export class CreateEventComponent implements OnInit {
         this.eventService.addingEvent = false;
         this.events.getSpecialEvents();
       },
-      err => console.log(err)
+      err => {
+        console.log(err);
+        if (err.error.name === 'ValidationError') {
+          alert('Please input an acceptable format for the date.');
+        }
+      }
     )
   }
 

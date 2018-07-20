@@ -117,7 +117,7 @@ router.get('/events', (req, res) => {
             console.log(err);
         }
         else {
-            return res.json(events);
+            return res.status(200).json(events);
         }
     })
 })
@@ -130,10 +130,10 @@ router.post('/events/createEvent', (req, res) => {
     })
     event.save((err, event) => {
         if (err) {
-            console.log(err);
+            return res.status(400).json(err);
         }
         else {
-            return res.json(event);
+            return res.status(200).json(event);
         }
     })
 })
@@ -162,7 +162,7 @@ router.get('/special', verifyToken, (req, res) => {
             console.log(err);
         }
         else {
-            return res.json(specialEvents);
+            return res.status(200).json(specialEvents);
         }
     })
 })
@@ -175,10 +175,10 @@ router.post('/special/createSpecialEvent', (req, res) => {
     })
     specialEvent.save((err, specialEvent) => {
         if (err) {
-            console.log(err);
+            return res.status(400).json(err);
         }
         else {
-            return res.json(specialEvent);
+            return res.status(200).json(specialEvent);
         }
     })
 })

@@ -1,8 +1,10 @@
 <span *ngIf="_auth.loggedIn()">
   <h3 class="mt-3">Hello, {{ _auth.getUsername() }}.</h3>
   <button class="btn btn-primary" type="submit" (click)="addEvent()">Add Event</button>
-  <button class="btn btn-danger float-right" (click)="deleteAllEvents()">Delete All</button>
+  <button *ngIf="events.length" class="btn btn-danger float-right" (click)="deleteAllEvents()">Delete All</button>
 </span>
+
+<p class="mt-3" *ngIf="!events.length">There are currently no events :(</p>
 
 <div class="row mt-3">
   <app-create-event [events]="this" [special]="false" class="col-md-4 mb-3" *ngIf="eventService.addingEvent"></app-create-event> 
