@@ -1,6 +1,6 @@
 <div class="card text-center">
   <div class="card-body">
-    <form #eventForm="ngForm" autocomplete="off" (ngSubmit)="addEvent()">
+    <form #eventForm="ngForm" autocomplete="off" (ngSubmit)="special ? addSpecialEvent() : addEvent()">
 
       <input type="text" class="card-title" name="name" placeholder="Event name" [(ngModel)]="event.name" required>
       <input type="text" class="card-text" name="description" placeholder="Description" [(ngModel)]="event.description" required>

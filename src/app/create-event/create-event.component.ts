@@ -11,7 +11,7 @@ import { EventsComponent } from '../events/events.component';
 export class CreateEventComponent implements OnInit {
 
   event = new Event('', '', '');
-  @Input() events: EventsComponent;
+  @Input() events;
   @Input() special: boolean;
 
   constructor(private eventService: EventService) { }
@@ -24,6 +24,16 @@ export class CreateEventComponent implements OnInit {
       res => {
         this.eventService.addingEvent = false;
         this.events.getEvents();
+      },
+      err => console.log(err)
+    )
+  }
+  
+  addSpecialEvent() {
+    this.eventService.addSpecialEvent(this.event).subscribe(
+      res => {
+        this.eventService.addingEvent = false;
+        this.events.getSpecialEvents();
       },
       err => console.log(err)
     )
