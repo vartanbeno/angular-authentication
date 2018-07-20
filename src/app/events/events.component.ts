@@ -24,4 +24,8 @@ export class EventsComponent implements OnInit {
     )
   }
 
+  addEvent() {
+    this.eventService.addingEvent = true;
+  }
+
 }
