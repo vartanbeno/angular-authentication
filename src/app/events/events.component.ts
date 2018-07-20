@@ -28,4 +28,17 @@ export class EventsComponent implements OnInit {
     this.eventService.addingEvent = true;
   }
 
+  deleteAllEvents() {
+    let deleteAll = confirm('Click on OK to delete all events.');
+    if (deleteAll) {
+      this.eventService.deleteAllEvents().subscribe(
+        res => {
+          console.log(res);
+          this.getEvents()
+        },
+        err => console.log(err)
+      );
+    }
+  }
+
 }

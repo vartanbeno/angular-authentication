@@ -138,6 +138,17 @@ router.post('/events/createEvent', (req, res) => {
     })
 })
 
+router.delete('/events/deleteAll', (req, res) => {
+    Event.remove({}, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            return res.status(200).json('All events have been deleted.');
+        }
+    })
+})
+
 /**
  * When we make a request to this route, the token
  * is first verified, and only then the code in this
