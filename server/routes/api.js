@@ -4,6 +4,8 @@ const router = express.Router();
 
 const mongoose = require('mongoose');
 const User = require('../models/users');
+const Event = require('../models/events');
+const SpecialEvent = require('../models/specialEvents');
 
 const bcrypt = require('bcryptjs');
 
@@ -110,45 +112,30 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/events', (req, res) => {
-    let events = [
-        {
-            "_id": "1",
-            "name": "Kanye West",
-            "description": "Concert",
-            "date": "11-21-2014"
-        },
-        {
-            "_id": "2",
-            "name": "World Cup",
-            "description": "Final Match",
-            "date": "06-15-2018"
-        },
-        {
-            "_id": "3",
-            "name": "NBA Finals",
-            "description": "Game 7",
-            "date": "06-08-2018"
-        },
-        {
-            "_id": "4",
-            "name": "Ericsson Response",
-            "description": "Work Event",
-            "date": "06-17-2018"
-        },
-        {
-            "_id": "5",
-            "name": "Raptors @ Lakers",
-            "description": "Regular Season",
-            "date": "11-03-2018"
-        },
-        {
-            "_id": "6",
-            "name": "Event Name",
-            "description": "Event Description",
-            "date": "01-01-1970"
+    Event.find({}, [], { sort: { date: -1 } }, (err, events) => {
+        if (err) {
+            console.log(err);
         }
-    ]
-    res.json(events);
+        else {
+            return res.json(events);
+        }
+    })
+})
+
+router.post('/events/createEvent', (req, res) => {
+    const event = new Event({
+        name: req.body.name,
+        description: req.body.description,
+        date: req.body.date
+    })
+    event.save((err, event) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            return res.json(event);
+        }
+    })
 })
 
 /**
@@ -159,45 +146,30 @@ router.get('/events', (req, res) => {
  * the user is met with a 401 status.
  */
 router.get('/special', verifyToken, (req, res) => {
-    let events = [
-        {
-            "_id": "1",
-            "name": "Kanye West",
-            "description": "Concert",
-            "date": "11-21-2014"
-        },
-        {
-            "_id": "2",
-            "name": "World Cup",
-            "description": "Final Match",
-            "date": "06-15-2018"
-        },
-        {
-            "_id": "3",
-            "name": "NBA Finals",
-            "description": "Game 7",
-            "date": "06-08-2018"
-        },
-        {
-            "_id": "4",
-            "name": "Ericsson Response",
-            "description": "Work Event",
-            "date": "06-17-2018"
-        },
-        {
-            "_id": "5",
-            "name": "Raptors @ Lakers",
-            "description": "Regular Season",
-            "date": "11-03-2018"
-        },
-        {
-            "_id": "6",
-            "name": "Event Name",
-            "description": "Event Description",
-            "date": "01-01-1970"
+    SpecialEvent.find({}, [], { sort: { date: -1 } }, (err, specialEvents) => {
+        if (err) {
+            console.log(err);
         }
-    ]
-    res.json(events);
+        else {
+            return res.json(specialEvents);
+        }
+    })
+})
+
+router.post('/special/createSpecialEvent', (req, res) => {
+    const specialEvent = new SpecialEvent({
+        name: req.body.name,
+        description: req.body.description,
+        date: req.body.date
+    })
+    specialEvent.save((err, specialEvent) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            return res.json(specialEvent);
+        }
+    })
 })
 
 module.exports = router;
